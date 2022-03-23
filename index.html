@@ -1,0 +1,561 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css"><link rel="stylesheet" href="css/L.Control.Locate.min.css">
+        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <link rel="stylesheet" href="css/filter.css">
+<link rel="stylesheet" href="css/nouislider.min.css">
+        <link rel="stylesheet" href="css/leaflet-control-geocoder.Geocoder.css">
+        <style>
+        #map {
+            width: 1396px;
+            height: 852px;
+        }
+        </style>
+        <title></title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script><script src="js/L.Control.Locate.min.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="js/leaflet-control-geocoder.Geocoder.js"></script>
+        <script src="js/tailDT.js"></script>
+<script src="js/nouislider.min.js"></script>
+<script src="js/wNumb.js"></script>
+        <script src="data/ECPIFinalContour_1.js"></script>
+        <script src="data/Industrie_2.js"></script>
+        <script src="data/Habitat_3.js"></script>
+        <script>
+        var highlightLayer;
+        function highlightFeature(e) {
+            highlightLayer = e.target;
+            highlightLayer.openPopup();
+        }
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:28, minZoom:1
+        }).fitBounds([[48.21977379157969,5.491222340629448],[48.44078329003398,6.016312325677216]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
+        var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+        L.control.locate({locateOptions: {maxZoom: 19}}).addTo(map);
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+        }
+        map.createPane('pane_BDOrthoIGN_0');
+        map.getPane('pane_BDOrthoIGN_0').style.zIndex = 400;
+        var layer_BDOrthoIGN_0 = L.tileLayer('https://proxy-ign.openstreetmap.fr/94GjiyqD/bdortho/{z}/{x}/{y}.jpg', {
+            pane: 'pane_BDOrthoIGN_0',
+            opacity: 1.0,
+            attribution: '<a href="https://openstreetmap.fr/bdortho">BDOrtho IGN</a>',
+            minZoom: 1,
+            maxZoom: 28,
+            minNativeZoom: 2,
+            maxNativeZoom: 21
+        });
+        layer_BDOrthoIGN_0;
+        map.addLayer(layer_BDOrthoIGN_0);
+        function pop_ECPIFinalContour_1(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['insee'] !== null ? autolinker.link(feature.properties['insee'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['nom'] !== null ? autolinker.link(feature.properties['nom'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['wikipedia'] !== null ? autolinker.link(feature.properties['wikipedia'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['surf_ha'] !== null ? autolinker.link(feature.properties['surf_ha'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_ECPIFinalContour_1_0() {
+            return {
+                pane: 'pane_ECPIFinalContour_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(141,90,153,0.0)',
+                interactive: false,
+            }
+        }
+        map.createPane('pane_ECPIFinalContour_1');
+        map.getPane('pane_ECPIFinalContour_1').style.zIndex = 401;
+        map.getPane('pane_ECPIFinalContour_1').style['mix-blend-mode'] = 'normal';
+        var layer_ECPIFinalContour_1 = new L.geoJson(json_ECPIFinalContour_1, {
+            attribution: '',
+            interactive: false,
+            dataVar: 'json_ECPIFinalContour_1',
+            layerName: 'layer_ECPIFinalContour_1',
+            pane: 'pane_ECPIFinalContour_1',
+            onEachFeature: pop_ECPIFinalContour_1,
+            style: style_ECPIFinalContour_1_0,
+        });
+        bounds_group.addLayer(layer_ECPIFinalContour_1);
+        map.addLayer(layer_ECPIFinalContour_1);
+        function pop_Industrie_2(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Nature du Batiment</th>\
+                        <td>' + (feature.properties['NATURE'] !== null ? autolinker.link(feature.properties['NATURE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Hauteur</th>\
+                        <td>' + (feature.properties['HAUTEUR'] !== null ? autolinker.link(feature.properties['HAUTEUR'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Degrés</th>\
+                        <td>' + (feature.properties['Degrés'] !== null ? autolinker.link(feature.properties['Degrés'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Industrie_2_0(feature) {
+            if (feature.properties['Degrés'] >= 1.000000 && feature.properties['Degrés'] <= 60.833333 ) {
+                return {
+                pane: 'pane_Industrie_2',
+                opacity: 1,
+                color: 'rgba(215,96,98,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(215,96,98,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['Degrés'] >= 60.833333 && feature.properties['Degrés'] <= 120.666667 ) {
+                return {
+                pane: 'pane_Industrie_2',
+                opacity: 1,
+                color: 'rgba(255,213,14,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,213,14,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['Degrés'] >= 120.666667 && feature.properties['Degrés'] <= 180.500000 ) {
+                return {
+                pane: 'pane_Industrie_2',
+                opacity: 1,
+                color: 'rgba(96,215,114,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(96,215,114,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['Degrés'] >= 180.500000 && feature.properties['Degrés'] <= 240.333333 ) {
+                return {
+                pane: 'pane_Industrie_2',
+                opacity: 1,
+                color: 'rgba(96,215,114,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(96,215,114,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['Degrés'] >= 240.333333 && feature.properties['Degrés'] <= 300.166667 ) {
+                return {
+                pane: 'pane_Industrie_2',
+                opacity: 1,
+                color: 'rgba(255,213,14,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,213,14,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['Degrés'] >= 300.166667 && feature.properties['Degrés'] <= 360.000000 ) {
+                return {
+                pane: 'pane_Industrie_2',
+                opacity: 1,
+                color: 'rgba(215,96,98,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(215,96,98,1.0)',
+                interactive: true,
+            }
+            }
+        }
+        map.createPane('pane_Industrie_2');
+        map.getPane('pane_Industrie_2').style.zIndex = 402;
+        map.getPane('pane_Industrie_2').style['mix-blend-mode'] = 'normal';
+        var layer_Industrie_2 = new L.geoJson(json_Industrie_2, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Industrie_2',
+            layerName: 'layer_Industrie_2',
+            pane: 'pane_Industrie_2',
+            onEachFeature: pop_Industrie_2,
+            style: style_Industrie_2_0,
+        });
+        bounds_group.addLayer(layer_Industrie_2);
+        map.addLayer(layer_Industrie_2);
+        function pop_Habitat_3(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Hauteur</th>\
+                        <td>' + (feature.properties['HAUTEUR'] !== null ? autolinker.link(feature.properties['HAUTEUR'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Degrés</th>\
+                        <td>' + (feature.properties['Degrés'] !== null ? autolinker.link(feature.properties['Degrés'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Habitat_3_0(feature) {
+            if (feature.properties['Degrés'] >= 1.000000 && feature.properties['Degrés'] <= 60.833333 ) {
+                return {
+                pane: 'pane_Habitat_3',
+                opacity: 1,
+                color: 'rgba(215,96,98,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(215,96,98,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['Degrés'] >= 60.833333 && feature.properties['Degrés'] <= 120.666667 ) {
+                return {
+                pane: 'pane_Habitat_3',
+                opacity: 1,
+                color: 'rgba(255,213,14,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,213,14,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['Degrés'] >= 120.666667 && feature.properties['Degrés'] <= 180.500000 ) {
+                return {
+                pane: 'pane_Habitat_3',
+                opacity: 1,
+                color: 'rgba(96,215,114,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(96,215,114,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['Degrés'] >= 180.500000 && feature.properties['Degrés'] <= 240.333333 ) {
+                return {
+                pane: 'pane_Habitat_3',
+                opacity: 1,
+                color: 'rgba(96,215,114,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(96,215,114,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['Degrés'] >= 240.333333 && feature.properties['Degrés'] <= 300.166667 ) {
+                return {
+                pane: 'pane_Habitat_3',
+                opacity: 1,
+                color: 'rgba(255,213,14,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,213,14,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['Degrés'] >= 300.166667 && feature.properties['Degrés'] <= 360.000000 ) {
+                return {
+                pane: 'pane_Habitat_3',
+                opacity: 1,
+                color: 'rgba(215,96,98,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(215,96,98,1.0)',
+                interactive: true,
+            }
+            }
+        }
+        map.createPane('pane_Habitat_3');
+        map.getPane('pane_Habitat_3').style.zIndex = 403;
+        map.getPane('pane_Habitat_3').style['mix-blend-mode'] = 'normal';
+        var layer_Habitat_3 = new L.geoJson(json_Habitat_3, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Habitat_3',
+            layerName: 'layer_Habitat_3',
+            pane: 'pane_Habitat_3',
+            onEachFeature: pop_Habitat_3,
+            style: style_Habitat_3_0,
+        });
+        bounds_group.addLayer(layer_Habitat_3);
+        map.addLayer(layer_Habitat_3);
+        var osmGeocoder = new L.Control.Geocoder({
+            collapsed: true,
+            position: 'topleft',
+            text: 'Search',
+            title: 'Testing'
+        }).addTo(map);
+        document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
+        .className += ' fa fa-search';
+        document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
+        .title += 'Search for a place';
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'Habitat<br /><table><tr><td style="text-align: center;"><img src="legend/Habitat_3_1610.png" /></td><td>1° - 61°</td></tr><tr><td style="text-align: center;"><img src="legend/Habitat_3_611211.png" /></td><td>61° - 121°</td></tr><tr><td style="text-align: center;"><img src="legend/Habitat_3_1211812.png" /></td><td>121° - 181°</td></tr><tr><td style="text-align: center;"><img src="legend/Habitat_3_1812403.png" /></td><td>181° - 240°</td></tr><tr><td style="text-align: center;"><img src="legend/Habitat_3_2403004.png" /></td><td>240° - 300°</td></tr><tr><td style="text-align: center;"><img src="legend/Habitat_3_3003605.png" /></td><td>300° - 360°</td></tr></table>': layer_Habitat_3,'Industrie<br /><table><tr><td style="text-align: center;"><img src="legend/Industrie_2_1610.png" /></td><td>1° - 61°</td></tr><tr><td style="text-align: center;"><img src="legend/Industrie_2_611211.png" /></td><td>61° - 121°</td></tr><tr><td style="text-align: center;"><img src="legend/Industrie_2_1211812.png" /></td><td>121° - 181°</td></tr><tr><td style="text-align: center;"><img src="legend/Industrie_2_1812403.png" /></td><td>181° - 240°</td></tr><tr><td style="text-align: center;"><img src="legend/Industrie_2_2403004.png" /></td><td>240° - 300°</td></tr><tr><td style="text-align: center;"><img src="legend/Industrie_2_3003605.png" /></td><td>300° - 360°</td></tr></table>': layer_Industrie_2,'<img src="legend/ECPIFinalContour_1.png" /> ECPI Final Contour': layer_ECPIFinalContour_1,"BDOrtho IGN": layer_BDOrthoIGN_0,}).addTo(map);
+        setBounds();
+        var mapDiv = document.getElementById('map');
+        var row = document.createElement('div');
+        row.className="row";
+        row.id="all";
+        row.style.height = "100%";
+        var col1 = document.createElement('div');
+        col1.className="col9";
+        col1.id = "mapWindow";
+        col1.style.height = "99%";
+        col1.style.width = "80%";
+        col1.style.display = "inline-block";
+        var col2 = document.createElement('div');
+        col2.className="col3";
+        col2.id = "menu";
+        col2.style.display = "inline-block";
+        mapDiv.parentNode.insertBefore(row, mapDiv);
+        document.getElementById("all").appendChild(col1);
+        document.getElementById("all").appendChild(col2);
+        col1.appendChild(mapDiv)
+        var Filters = {"Degrés": "int"};
+        function filterFunc() {
+          map.eachLayer(function(lyr){
+          if ("options" in lyr && "dataVar" in lyr["options"]){
+            features = this[lyr["options"]["dataVar"]].features.slice(0);
+            try{
+              for (key in Filters){
+                keyS = key.replace(/[^a-zA-Z0-9_]/g, "")
+                if (Filters[key] == "str" || Filters[key] == "bool"){
+                  var selection = [];
+                  var options = document.getElementById("sel_" + keyS).options
+                  for (var i=0; i < options.length; i++) {
+                    if (options[i].selected) selection.push(options[i].value);
+                  }
+                    try{
+                      if (key in features[0].properties){
+                        for (i = features.length - 1;
+                          i >= 0; --i){
+                          if (selection.indexOf(
+                          features[i].properties[key])<0
+                          && selection.length>0) {
+                          features.splice(i,1);
+                          }
+                        }
+                      }
+                    } catch(err){
+                  }
+                }
+                if (Filters[key] == "int"){
+                  sliderVals =  document.getElementById(
+                    "div_" + keyS).noUiSlider.get();
+                  try{
+                    if (key in features[0].properties){
+                    for (i = features.length - 1; i >= 0; --i){
+                      if (parseInt(features[i].properties[key])
+                          < sliderVals[0]
+                          || parseInt(features[i].properties[key])
+                          > sliderVals[1]){
+                            features.splice(i,1);
+                          }
+                        }
+                      }
+                    } catch(err){
+                    }
+                  }
+                if (Filters[key] == "real"){
+                  sliderVals =  document.getElementById(
+                    "div_" + keyS).noUiSlider.get();
+                  try{
+                    if (key in features[0].properties){
+                    for (i = features.length - 1; i >= 0; --i){
+                      if (features[i].properties[key]
+                          < sliderVals[0]
+                          || features[i].properties[key]
+                          > sliderVals[1]){
+                            features.splice(i,1);
+                          }
+                        }
+                      }
+                    } catch(err){
+                    }
+                  }
+                if (Filters[key] == "date"
+                  || Filters[key] == "datetime"
+                  || Filters[key] == "time"){
+                  try{
+                    if (key in features[0].properties){
+                      HTMLkey = key.replace(/[&\/\\#,+()$~%.'":*?<>{} ]/g, '');
+                      startdate = document.getElementById("dat_" +
+                        HTMLkey + "_date1").value.replace(" ", "T");
+                      enddate = document.getElementById("dat_" +
+                        HTMLkey + "_date2").value.replace(" ", "T");
+                      for (i = features.length - 1; i >= 0; --i){
+                        if (features[i].properties[key] < startdate
+                          || features[i].properties[key] > enddate){
+                          features.splice(i,1);
+                        }
+                      }
+                    }
+                  } catch(err){
+                  }
+                }
+              }
+            } catch(err){
+            }
+          this[lyr["options"]["layerName"]].clearLayers();
+          this[lyr["options"]["layerName"]].addData(features);
+          }
+          })
+        }
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_Degrs = document.createElement("div");
+            div_Degrs.id = "div_Degrs";
+            div_Degrs.className = "slider";
+            document.getElementById("menu").appendChild(div_Degrs);
+            var lab_Degrs = document.createElement('div');
+            lab_Degrs.innerHTML  = 'Degrés: <span id="val_Degrs"></span>';
+            lab_Degrs.className = 'filterlabel';
+            document.getElementById("menu").appendChild(lab_Degrs);
+            var reset_Degrs = document.createElement('div');
+            reset_Degrs.innerHTML = 'clear filter';
+            reset_Degrs.className = 'filterlabel';
+            lab_Degrs.className = 'filterlabel';
+            reset_Degrs.onclick = function() {
+                sel_Degrs.noUiSlider.reset();
+            };
+            document.getElementById("menu").appendChild(reset_Degrs);
+            var sel_Degrs = document.getElementById('div_Degrs');
+            noUiSlider.create(sel_Degrs, {
+                connect: true,
+                start: [0, 360],
+                step: 1,
+                format: wNumb({
+                    decimals: 0,
+                    }),
+                range: {
+                min: 0,
+                max: 360
+                }
+            });
+            sel_Degrs.noUiSlider.on('update', function (values) {
+            filterVals =[];
+            for (value in values){
+            filterVals.push(parseInt(value))
+            }
+            val_Degrs = document.getElementById('val_Degrs');
+            val_Degrs.innerHTML = values.join(' - ');
+                filterFunc()
+            });
+        </script>
+    </body>
+</html>
